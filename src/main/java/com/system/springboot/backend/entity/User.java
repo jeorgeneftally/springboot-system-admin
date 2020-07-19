@@ -4,18 +4,11 @@ package com.system.springboot.backend.entity;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -38,11 +31,25 @@ public class User {
 	private String address;
 
 	private String email;
-	/**
-	 * 	@JsonIgnore for hide the attribute in the response
-	 */
+
 	private String telephone;
 
-	@ManyToMany
-	Set<Course> Courses;
+	private String image;
+
+	@JsonIgnoreProperties(value = { "user", "hibernateLazyInitializer", "handler" }, allowSetters = true)
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Company company;
+
+	@JsonIgnoreProperties(value = { "user", "hibernateLazyInitializer", "handler" }, allowSetters = true)
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private Set<Course> course;
+
+	@JsonIgnoreProperties(value = { "user", "hibernateLazyInitializer", "handler" }, allowSetters = true)
+	@ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private List<Role> role;
+
+	@JsonIgnoreProperties(value = { "user", "hibernateLazyInitializer", "handler" }, allowSetters = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<UserDetail> userDetail;
+
 }

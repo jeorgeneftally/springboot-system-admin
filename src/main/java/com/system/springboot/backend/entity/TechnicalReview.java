@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -13,24 +12,20 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Course {
+public class TechnicalReview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
     private String site;
 
-    private String hour;
+    private String description;
 
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @JsonIgnoreProperties(value = { "course", "hibernateLazyInitializer", "handler" }, allowSetters = true)
-    @ManyToMany(mappedBy = "course")
-    private Set<User> user;
-
-
+    @JsonIgnoreProperties(value = { "technicalReview", "hibernateLazyInitializer", "handler" }, allowSetters = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Firetruck firetruck;
 }

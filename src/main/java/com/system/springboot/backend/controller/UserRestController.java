@@ -33,7 +33,7 @@ public class UserRestController {
      * @return a object type user
      */
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id){
+    public ResponseEntity<User> findUserById(@PathVariable Long id){
         return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
     }
     /**
@@ -50,8 +50,8 @@ public class UserRestController {
      * @param name string containing the name
      * @return list of type user
      */
-    @GetMapping("nameContaining/{name}")
-    public ResponseEntity<List<User>> findByNameContaining(@PathVariable String name){
+    @GetMapping("containingNameSurname/{name}")
+    public ResponseEntity<List<User>> findUsersByNameAndSurnameContaining(@PathVariable String name){
         return new ResponseEntity <> (userService.findUsersByNameAndSurnameContaining(name, name), HttpStatus.OK);
     }
     /**
@@ -70,11 +70,17 @@ public class UserRestController {
      * @return object update, validate name and email, exception of findById and save
      */
     @PutMapping("/{id}")
-    public ResponseEntity<User> saveUser(@Validated @RequestBody User user, @PathVariable Long id){
+    public ResponseEntity<User> updateUser(@Validated @RequestBody User user, @PathVariable Long id){
         User userNew = userService.findUserById(id);
         userNew = user;
         userNew.setId(id);
-        return new ResponseEntity<>(userService.saveUser(userNew),HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.saveUser(userNew),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        return new ResponseEntity<>("User successfully deleted",HttpStatus.OK);
     }
 
 }
