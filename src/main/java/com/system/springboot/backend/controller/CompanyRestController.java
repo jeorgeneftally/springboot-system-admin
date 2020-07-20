@@ -58,7 +58,7 @@ public class CompanyRestController {
      * @return
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Company> UpdateCourse(@Validated @RequestBody Company company, @PathVariable Long id){
+    public ResponseEntity<Company> UpdateCompany(@Validated @RequestBody Company company, @PathVariable Long id){
         Company companyNew = companyService.findCompanyById(id);
         companyNew = company;
         companyNew.setId(id);

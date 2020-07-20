@@ -100,7 +100,7 @@ public class CompartmentService {
      * @param compartmentDetail
      * @return
      */
-    public CompartmentDetail saveCompartment(CompartmentDetail compartmentDetail){
+    public CompartmentDetail saveCompartmentDetail(CompartmentDetail compartmentDetail){
         return Optional.of(compartmentDetailRepository.save(compartmentDetail))
                 .orElseThrow(()->new InternalServerErrorException("internal server error",new Exception("")));
     }

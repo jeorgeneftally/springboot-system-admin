@@ -1,13 +1,19 @@
 package com.system.springboot.backend.controller;
 
 import com.system.springboot.backend.entity.User;
+import com.system.springboot.backend.service.UploadsService;
 import com.system.springboot.backend.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,6 +25,7 @@ public class UserRestController {
      * Injection of service user by constructor
      */
     private final UserService userService;
+    private final UploadsService uploadsService;
     /**
      * endpoint findAll
      * @return a list objects of type user or exception
@@ -81,6 +88,42 @@ public class UserRestController {
     public ResponseEntity<?> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return new ResponseEntity<>("User successfully deleted",HttpStatus.OK);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file,@RequestParam("id") Long id) throws IOException {
+        String route = "users";
+        User user = userService.findUserById(id);
+
+        if (!file.isEmpty()) {
+
+            String nameFile = null;
+            nameFile = uploadsService.copy(file, route);
+            String namePhotoOld = user.getImage();
+            uploadsService.delete(namePhotoOld, route);
+            user.setImage(nameFile);
+            userService.saveUser(user);
+
+
+        }
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/uploads/img/{nombreFoto:.+}")
+    public ResponseEntity<Resource> verFoto(@PathVariable String nombreFoto){
+        String route="users";
+        Resource recurso = null;
+
+        try {
+            recurso = uploadsService.load(nombreFoto,route);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        HttpHeaders cabecera = new HttpHeaders();
+        cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
+
+        return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
     }
 
 }

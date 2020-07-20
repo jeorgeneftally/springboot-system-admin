@@ -143,7 +143,7 @@ public class FiretruckService {
      * @param technicalReview
      * @return
      */
-    public TechnicalReview saveMaintenance(TechnicalReview technicalReview){
+    public TechnicalReview saveTechnicalReview(TechnicalReview technicalReview){
         return Optional.of(technicalReviewRepository.save(technicalReview))
                 .orElseThrow(()->new InternalServerErrorException("internal server error",new Exception("")));
     }
