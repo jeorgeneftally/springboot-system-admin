@@ -19,7 +19,6 @@ public class Firetruck {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
     private String trademark;
@@ -34,7 +33,6 @@ public class Firetruck {
 
     private String description;
 
-    @Column(nullable=false)
     private String patent;
 
     @Temporal(TemporalType.DATE)

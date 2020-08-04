@@ -11,8 +11,6 @@ import com.system.springboot.backend.exception.NotFoundException;
 import com.system.springboot.backend.repository.RoleRepository;
 import com.system.springboot.backend.repository.UserDetailRepository;
 import com.system.springboot.backend.validator.Validator;
-import net.bytebuddy.implementation.bytecode.Throw;
-import org.hibernate.annotations.NotFound;
 import org.springframework.stereotype.Service;
 
 import com.system.springboot.backend.entity.User;
@@ -30,7 +28,6 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final UserDetailRepository userDetailRepository;
 	private final RoleRepository roleRepository;
-	private final Validator validator;
 
 	/**
 	 * all the users exists
@@ -87,7 +84,6 @@ public class UserService {
 	 * @return object type user with attributes in json
 	 */
 	public User saveUser(User user){
-		validator.validator(user);
 		return Optional.of(userRepository.save(user))
 				.orElseThrow(()->new InternalServerErrorException("internal server error",new Exception("")));
 	}

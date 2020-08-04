@@ -9,5 +9,4 @@ public interface MaterialRepository  extends CrudRepository<Material, Long> {
 
     List<Material> findMaterialsByNameContaining(String name);
 
-
 }

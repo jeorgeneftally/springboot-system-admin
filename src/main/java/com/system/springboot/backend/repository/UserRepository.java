@@ -13,5 +13,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     List <User> findUsersByNameContainingOrSurnameContaining(String name,String Surname);
 
-
+    User findUsersBySurname(String username);
 }

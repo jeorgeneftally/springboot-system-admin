@@ -20,10 +20,8 @@ public class Maintenance {
 
     private String description;
 
-    //@Column(nullable=false)
     private String site;
 
-    //@Column(nullable=false)
     private String mechanic;
 
     @Temporal(TemporalType.DATE)

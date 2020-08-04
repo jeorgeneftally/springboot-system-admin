@@ -8,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,7 +68,7 @@ public class UserRestController {
      * @return save object type type user, validate name and email
      */
     @PostMapping
-    public ResponseEntity<User> saveUser(@Validated @RequestBody User user){
+    public ResponseEntity<User> saveUser(@Validated @RequestBody User user ){
         return new ResponseEntity<>(userService.saveUser(user),HttpStatus.CREATED);
     }
     /**
